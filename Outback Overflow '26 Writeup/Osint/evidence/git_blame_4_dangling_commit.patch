@@ -1,0 +1,26 @@
+From 667271e6e30b11a43eb4b4de5eeb1fed79bf0f9d Mon Sep 17 00:00:00 2001
+From: "Jake M." <jakeyb0i-qld.dev@example.com>
+Date: Mon, 12 Oct 2026 22:31:00 +1000
+Subject: [PATCH] add wireguard config
+
+---
+ wireguard/wg0.conf | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ create mode 100644 wireguard/wg0.conf
+
+diff --git a/wireguard/wg0.conf b/wireguard/wg0.conf
+new file mode 100644
+index 0000000..c281a42
+--- /dev/null
++++ b/wireguard/wg0.conf
+@@ -0,0 +1,10 @@
++[Interface]
++# home vpn - OO{f0rc3_push3d_n0t_f0rg0tt3n}
++PrivateKey = yAnz5TF+lXXJte14tji3zlMNq+hd2rYUIgJBgB3fBmk=
++Address = 10.8.0.2/24
++DNS = 10.8.0.1
++
++[Peer]
++PublicKey = xTIBA5rboUvnH4htodjb6e697QjLERt1NAB4mZqp8Dg=
++Endpoint = home.example.com:51820
++AllowedIPs = 0.0.0.0/0

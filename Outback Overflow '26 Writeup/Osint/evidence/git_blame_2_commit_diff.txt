@@ -1,0 +1,39 @@
+=== GIT COMMIT HISTORY DIFF LEAK ===
+Target Repository: https://github.com/jakeyb0i-qld/homelab
+Branch: main
+
+commit 860128383cfb2e53ef7a030113f9f78314dc4f3f
+Author: Jake M. <jakeyb0i-qld.dev@example.com>
+Date:   Sat Nov 21 02:05:12 2026 +0000
+
+    add env
+
+diff --git a/.env b/.env
+new file mode 100644
+index 0000000..f981273
+--- /dev/null
++++ b/.env
+@@ -0,0 +1,5 @@
++PIHOLE_PASSWORD=admin
++GRAFANA_ADMIN_PASSWORD=admin
++ROUTER_ADMIN_USER=admin
++ROUTER_ADMIN_PASS=OO{h1st0ry_n3v3r_f0rg3ts}
++WIREGUARD_PORT=51820
+
+--------------------------------------------------------------------------------
+Subsequent Commit:
+commit e0702734bc1a729e8c3a1b023f0380dc93740cb2
+Author: Jake M. <jakeyb0i-qld.dev@example.com>
+Date:   Sat Nov 21 02:08:44 2026 +0000
+
+    remove secrets lol
+
+diff --git a/.env b/.env
+deleted file mode 100644
+================================================================================
+Analysis:
+The developer attempted to remove credentials in commit e0702734 ("remove secrets lol"),
+failing to understand that Git is an append-only directed acyclic graph (DAG).
+The previous commit 86012838 preserved the plaintext credentials in the repository's commit tree forever.
+Verified Flag: OO{h1st0ry_n3v3r_f0rg3ts}
+================================================================================

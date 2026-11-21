@@ -1,0 +1,34 @@
+=== GITHUB ACTIONS WORKFLOW RUN LOG LEAK EVIDENCE ===
+Target Repository: https://github.com/outbackcorp-it/url-checker
+Workflow File: .github/workflows/deploy.yml
+Run ID: 44263715591
+Job ID: 134662990502
+Direct URL: https://github.com/outbackcorp-it/url-checker/actions/runs/44263715591/job/134662990502
+Screenshot Evidence: Assignment/Challenge_06/evidence/github_actions_xxd_leak.png
+
+Commit Introducing Debug Step: 88c6c169ee98b48e3c8b95df64c7b9812c79137e ("add deploy workflow")
+Remediation Commit Removing Step: 95b3d57f789e26443f42d1d8aef5352e630c4475 ("remove debug output")
+
+--- WORKFLOW STEP DEFINITION (Commit 88c6c169) ---
+      - name: debug token (why is auth failing??)
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: |
+          echo "token length: ${#DEPLOY_TOKEN}"
+          echo "checking for trailing whitespace..."
+          printf '%s' "$DEPLOY_TOKEN" | xxd
+
+--- CAPTURED LOG OUTPUT (Step 3: debug token (why is auth failing??)) ---
+Run echo "token length: ${#DEPLOY_TOKEN}"
+token length: 25
+checking for trailing whitespace...
+00000000: 4f4f 7b6d 3473 6b31 6e67 5f31 736e 745f  OO{m4sk1ng_1snt_
+00000010: 7333 6375 7231 7479 7d                   s3cur1ty}
+
+--- DECODED SECRET ANALYSIS ---
+Hex Sequence: 4f4f7b6d34736b316e675f31736e745f73336375723174797d
+Byte Length: 25 bytes
+Decoded ASCII Flag: OO{m4sk1ng_1snt_s3cur1ty}
+
+Analysis:
+Although GitHub Actions masks exact matches of secret environment variables (replacing raw occurrences of secrets.DEPLOY_TOKEN with '***'), encoding or transforming the secret via xxd produces hexadecimal output that no longer matches the masked literal string. Furthermore, removing the debug step in subsequent commit 95b3d57f789e26443f42d1d8aef5352e630c4475 did not delete or purge existing historical run logs on run 44263715591.

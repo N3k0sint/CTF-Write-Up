@@ -1,0 +1,30 @@
+[CERTIFICATE TRANSPARENCY AUDIT LOG]
+Challenge: CERT UP
+Category: OSINT (Certificate Transparency & PKI Ledger Intelligence)
+Target Domain: %.hscyber.org
+CT Search Query: https://crt.sh/?q=%25.hscyber.org&output=json
+
+1. QUERY PARAMETERS & HINT DECONSTRUCTION:
+- Hint: "To be at peace, one needs to be transparent."
+  - "transparent": Points directly to Certificate Transparency (RFC 6962), an append-only public ledger.
+  - "at peace": Semantic keyword marker for the target hostname.
+
+2. CERTIFICATE TRANSPARENCY RECORD DETAILS:
+- Certificate ID / Serial: 7b2868146f439536eb73bc3646dae256
+- Issuer CA: ZeroSSL (ZeroSSL ECC Domain Secure Site CA)
+- Entry Timestamp: 2026-10-06T14:22:18Z
+- Not Before: 2026-10-06 00:00:00 UTC
+- Not After: 2027-01-04 23:59:59 UTC
+- Common Name (CN): i-am-at-p3ace.hscyber.org
+- Subject Alternative Names (SANs):
+  - DNS: i-am-at-p3ace.hscyber.org
+
+3. HOSTNAME & DNS VERIFICATION:
+$ dig +noall +answer i-am-at-p3ace.hscyber.org
+;; status: NXDOMAIN
+Result: The subdomain does not resolve to an active IP address. It was provisioned purely to submit a valid certificate to the public CT ledger as an OSINT breadcrumb.
+
+4. FLAG RECONSTRUCTION:
+Flag format specified: OO{...}
+Subdomain token: i-am-at-p3ace
+Resulting Flag: OO{i-am-at-p3ace}
