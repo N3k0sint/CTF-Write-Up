@@ -61,7 +61,7 @@ Converting the hexadecimal values back to ASCII:
 * `7b6d 3473 6b31 6e67 5f31 736e 745f` ---> `{m4sk1ng_1snt_`
 * `7333 6375 7231 7479 7d` ---> `s3cur1ty}`
 
-Flag Captured:** `OO{m4sk1ng_1snt_s3cur1ty}
+Flag Captured: `OO{m4sk1ng_1snt_s3cur1ty}`
 
 * **Evidence Files:**
   * [`evidence/git_blame_3_actions_log.png`](evidence/git_blame_3_actions_log.png)
