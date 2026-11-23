@@ -32,7 +32,11 @@ Looking out toward the ocean (east-northeast), the Queenscliff and Freshwater he
 
 ### 2. Narrowing Down the Exact Stretch of Promenade
 
-Click on the third link: `https://www.trip.com/moments/detail/manly-2126991-146213314/` (Trip.com)
+Click on the third link (Trip.com): 
+```text
+https://www.trip.com/moments/detail/manly-2126991-146213314/`
+```
+
 
 <img width="1320" height="870" alt="image" src="https://github.com/user-attachments/assets/f2da2b6d-e804-4634-8639-aa8a3b9c519c" />
 
