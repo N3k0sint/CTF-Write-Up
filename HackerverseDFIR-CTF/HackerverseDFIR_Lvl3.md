@@ -10,6 +10,7 @@ Chrome for a cryptocurrency site (chaincrypto.com). Given artifacts:
 **Goal:** Recover the DPAPI masterkey, decrypt Chrome's AES key, and extract the
 attacker's saved credentials for `chaincrypto.com`.
 
+
 ## Artifact Location
 
 C:\Users\LabUser\Desktop\chrome_cracker_data\
@@ -20,6 +21,8 @@ C:\Users\LabUser\Desktop\chrome_cracker_data\
   * Mimikatz 2.2.0    (Chrome DPAPI decryption)
   * Invoke-PowerChrome (Chrome AES key decryption - PowerShell fallback)
   * Python + pywin32  (Manual DPAPI decryption fallback)
+
+---
 
 ## Artifacts Found
 
@@ -37,11 +40,13 @@ After extracting Google.zip:
     +-- Default\
           +-- Login Data                       (SQLite DB with saved passwords)
 
+---
+
 ## Challenge-by-Challenge Walkthrough
 
 ### 1. Tool used to extract MasterKey from lsass.DMP
 
-**ANSWER:** Mimikatz
+**ANSWER:** `Mimikatz`
 
 **Explanation:**
   The challenge provides kiwi_passwords.yar, mimicom.idl, and
@@ -53,9 +58,11 @@ After extracting Google.zip:
   extracting DPAPI masterkeys from an LSASS dump and decrypting Chrome
   saved credentials.
 
+---
+
 ### 2. File within Chrome profile with Base64 encrypted_key
 
-**ANSWER:** Local State
+**ANSWER:** `Local State`
 
 **Explanation:**
   Chrome stores the AES key that protects its password database in the
@@ -73,9 +80,11 @@ After extracting Google.zip:
 
 The prefix "RFBBUEk" decodes to "DPAPI".
 
+---
+
 ### 3. Attacker's Windows username
 
-**ANSWER:** LabUser
+**ANSWER:** `LabUser`
 
 **Explanation:**
 
@@ -89,9 +98,11 @@ The prefix "RFBBUEk" decodes to "DPAPI".
     domainname WIN10
     sid S-1-5-21-1077705597-68872450-308104863-1001
 
+---
+
 ### 4. First 10 characters of the masterkey
 
-**ANSWER:** 9c3bca41e3
+**ANSWER:** `9c3bca41e3`
 
 **Explanation:**
 
@@ -110,9 +121,11 @@ The prefix "RFBBUEk" decodes to "DPAPI".
 
   First 10 characters: 9c3bca41e3
 
+---
+
 ### 5. First 10 characters of the Final Secret Key
 
-**ANSWER:** 3bd3bef8ad
+**ANSWER:** `3bd3bef8ad`
 
 **Explanation:**
 
@@ -132,9 +145,11 @@ The prefix "RFBBUEk" decodes to "DPAPI".
 
   First 10 characters of AES key: 3bd3bef8ad
 
+---
+
 ### 6. Username and Password
 
-**ANSWER:** TechExplorer / P@$$w0rd_Str0ng!92
+**ANSWER:** `TechExplorer / P@$$w0rd_Str0ng!92`
 
 **Explanation:**
 
@@ -142,6 +157,8 @@ The prefix "RFBBUEk" decodes to "DPAPI".
     URL      : https://www.chaincrypto.com/  ( https://www.chaincrypto.com/ )
     Username : TechExplorer
     Password : P@$$w0rd_Str0ng!92
+    
+<img width="900" height="288" alt="image" src="https://github.com/user-attachments/assets/610f46e3-eae5-463b-a9fb-26418d1d09da" />
 
   Note: Mimikatz 2.2.0 has a known bug ("ERROR kuhl_m_dpapi_chrome_decrypt ;
   No Alg and/or Key handle despite AES encryption") that can prevent it from
@@ -151,16 +168,7 @@ The prefix "RFBBUEk" decodes to "DPAPI".
 
   Final format: TechExplorer / P@$$w0rd_Str0ng!92
 
-## Final Answer Sheet
-
-| # | Challenge | Answer |
-|---|---|---|
-| 1 | Tool used to extract MasterKey | `Mimikatz` |
-| 2 | File with Base64 encrypted_key | `Local State` |
-| 3 | Attacker's Windows username | `LabUser` |
-| 4 | First 10 chars of masterkey | `9c3bca41e3` |
-| 5 | First 10 chars of Final Secret Key | `3bd3bef8ad` |
-| 6 | Username and password | `TechExplorer / P@$$w0rd_Str0ng!92` |
+---
 
 ## Full Command Walkthrough (Copy-Paste Ready)
 
@@ -262,6 +270,21 @@ conn.close()
 cd C:\chrome_test
 python decrypt.py
 ```
+
+---
+
+## Final Answer Sheet
+
+| # | Challenge | Answer |
+|---|---|---|
+| 1 | Tool used to extract MasterKey | `Mimikatz` |
+| 2 | File with Base64 encrypted_key | `Local State` |
+| 3 | Attacker's Windows username | `LabUser` |
+| 4 | First 10 chars of masterkey | `9c3bca41e3` |
+| 5 | First 10 chars of Final Secret Key | `3bd3bef8ad` |
+| 6 | Username and password | `TechExplorer / P@$$w0rd_Str0ng!92` |
+
+---
 
 ## Attack Chain Summary
 
