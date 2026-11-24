@@ -112,6 +112,7 @@ cat flag.txt
 **Output:** `Q1RGe3N0ZWcwXzFzX2NvMGx9`
 
 **Decode Base64 string:**
+<img width="905" height="521" alt="image" src="https://github.com/user-attachments/assets/18202611-d57c-499a-8a84-0badccaba11a" />
 
 ```bash
 echo "Q1RGe3N0ZWcwXzFzX2NvMGx9" | base64 -d
