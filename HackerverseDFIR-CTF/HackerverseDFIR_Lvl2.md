@@ -18,6 +18,8 @@ reconstruct the full attack chain.
   10.10.1.111   -> Synixon ChatOps server
   Services on server: HTTP(80), HTTPS(443), WebSocket(5000), Hidden HTTP(17645)
 
+---
+
 ## Reconnaissance & Triage
 
 Step 1 - Identify protocols in use
@@ -56,11 +58,13 @@ tshark -r synixon_breach_capture.pcapng -q -z conv,tcp
   10.10.1.111:50188  <->  10.10.1.2:8998
   -> This is the REVERSE SHELL (server calling back to attacker).
 
+---
+
 ## Challenge-by-Challenge Walkthrough
 
 ### 1. Attacker's signup email
 
-**ANSWER:** root@hacker.com
+**ANSWER:** `root@hacker.com`
 
 **Command:**
 
@@ -79,9 +83,11 @@ user_name=i_am_hacker&user_mail=root%40hacker.com&user_pass=hack%40123&signup=
 
 URL-decoding %40 -> @ gives: root@hacker.com
 
+---
+
 ### 2. Supervisor email whose password was reset via WebSocket chat
 
-**ANSWER:** tony@synixon.com
+**ANSWER:** `tony@synixon.com`
 
 **Command:**
 
@@ -97,9 +103,11 @@ tshark -r synixon_breach_capture.pcapng -Y "websocket" \
   "user":"tony@synixon.com","message":"reset-password:hackpass"
   -> bot: "Password changed for tony@synixon.com."
 
+---
+
 ### 3. Vulnerable developer debug page
 
-**ANSWER:** debug-view.php
+**ANSWER:** `debug-view.php`
 
 **Evidence from HTTP requests:**
   GET /syni_dev/dev-debug.php
@@ -108,9 +116,11 @@ tshark -r synixon_breach_capture.pcapng -Y "websocket" \
 
 The page debug-view.php accepts a 'file' parameter -> LFI vector.
 
+---
+
 ### 4. Log file accessed via LFI
 
-**ANSWER:** legacy_dev_keys.log
+**ANSWER:** `legacy_dev_keys.log`
 
 **LFI exploitation requests:**
   GET /syni_dev/debug-view.php?file=../../../../../../../etc/passwd
@@ -118,9 +128,11 @@ The page debug-view.php accepts a 'file' parameter -> LFI vector.
 
 First confirmed LFI with /etc/passwd, then targeted the log file.
 
+---
+
 ### 5. New admin account email
 
-**ANSWER:** admin@hacker.com
+**ANSWER:** `admin@hacker.com`
 
 **WebSocket chat sequence (after taking over supervisor):**
   "user":"tony@synixon.com","message":"alphaadmin:insert:admin@hacker.com"
@@ -130,9 +142,11 @@ First confirmed LFI with /etc/passwd, then targeted the log file.
   "user":"tony@synixon.com","message":"admin"
   -> bot: "User admin@hacker.com created as admin."
 
+---
+
 ### 6. Port of new web service
 
-**ANSWER:** 17645
+**ANSWER:** `17645`
 
 **Evidence:**
   GET /admin_login_ERHG23W2.php  ->  10.10.1.111:17645
@@ -144,18 +158,22 @@ tshark -r synixon_breach_capture.pcapng -Y "tcp.port == 17645" \
 -T fields -e http.request.uri
 ```
 
+---
+
 ### 7. Hidden admin login page filename
 
-**ANSWER:** admin_login_ERHG23W2.php
+**ANSWER:** `admin_login_ERHG23W2.php`
 
 **Evidence:**
   POST /admin_login_ERHG23W2.php  ->  10.10.1.111:17645
 
 The random suffix ERHG23W2 indicates security-through-obscurity.
 
+---
+
 ### 8. Legacy feedback service port
 
-**ANSWER:** 5000
+**ANSWER:** `5000`
 
 **Evidence (multiple requests on port 5000):**
   POST /socket.io/?EIO=4&transport=polling&...  -> 10.10.1.111:5000
@@ -163,9 +181,11 @@ The random suffix ERHG23W2 indicates security-through-obscurity.
 
 Port 5000 hosts both Socket.IO WebSocket and the legacy feedback service.
 
+---
+
 ### 9. Reverse shell IP:port
 
-**ANSWER:** 10.10.1.2:8998
+**ANSWER:** `10.10.1.2:8998`
 
 **Command:**
 
@@ -181,9 +201,11 @@ tshark -r synixon_breach_capture.pcapng \
 **Conversation table confirms:**
   10.10.1.111:50188  <->  10.10.1.2:8998
 
+---
+
 ### 10. The flag
 
-**ANSWER:** flag{A1EL2L8P}
+**ANSWER:** `flag{A1EL2L8P}`
 
 **Command:**
 
@@ -238,7 +260,9 @@ strings synixon_breach_capture.pcapng | grep -iE "flag\{"
 
 ### Phase 8 - Exfiltration
 
-  Reads the flag: flag{A1EL2L8P}
+  Reads the flag: `flag{A1EL2L8P}`
+
+---
 
 ## Final Answer Sheet
 
