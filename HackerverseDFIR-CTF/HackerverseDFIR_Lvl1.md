@@ -7,6 +7,8 @@
 | **Total Challenges** | 5 |
 | **Completed** | 5/5 |
 
+---
+
 ### 1. The Hidden Voice
 
 **Scenario:**
@@ -50,7 +52,9 @@ print("".join(chr(int(bits[6:][i:i+8], 2)) for i in range(0, len(bits[6:])-7, 8)
 '
 ```
 
-**FLAG:** flag{binary_audio_secrets}
+**FLAG:** `flag{binary_audio_secrets}`
+
+---
 
 ### 2. JPEG SOI Marker
 
@@ -62,7 +66,9 @@ Format: XX XN XX XN
 A standard JPEG JFIF file begins with the Start of Image (SOI) marker (FF D8) 
 followed by the APP0 JFIF application marker (FF E0).
 
-**ANSWER:** FF D8 FF E0
+**ANSWER:** `FF D8 FF E0`
+
+---
 
 ### 3. Stego Cat
 
@@ -118,7 +124,9 @@ cat flag.txt
 echo "Q1RGe3N0ZWcwXzFzX2NvMGx9" | base64 -d
 ```
 
-**FLAG:** CTF{steg0_1s_co0l}
+**FLAG:** `CTF{steg0_1s_co0l}`
+
+---
 
 ### 4. Camouflage - Sequence Identification
 
@@ -134,7 +142,9 @@ Artifact Location: /root/Encoded Artifact/Encoded_Dump.txt
 3. Line 6 reveals the recipe hint:
    "Process: Base58 → ROT13 → BASE64 → XOR (Hex Key: 342120)"
 
-**ANSWER:** Base58 → ROT13 → Base64 → XOR (Hex Key: 342120)
+**ANSWER:** `Base58 → ROT13 → Base64 → XOR (Hex Key: 342120)`
+
+---
 
 ### 5. Camouflage - Final Secret Flag
 
@@ -206,7 +216,9 @@ for idx, line in enumerate(lines, 1):
 EOF
 ```
 
-**FLAG:** FLAG{ViCtOrYaChIeVeD}
+**FLAG:** `FLAG{ViCtOrYaChIeVeD}`
+
+---
 
 ## Final Level 1 Summary
 
